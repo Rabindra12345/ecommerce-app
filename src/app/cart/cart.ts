@@ -80,5 +80,9 @@ export class Cart {
         .filter(i => i.quantity > 0)
     );
   }
+
+  clearCart() {
+    this.items.set([]);
+  }
   
 }

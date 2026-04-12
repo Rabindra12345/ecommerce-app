@@ -1,6 +1,5 @@
-<!-- header.component.html -->
 <header class="navbar">
-  <div class="logo">MeroJhola</div>
+  <div class="logo">TaskManager</div>
 
   <nav class="nav-links">
     <a routerLink="/" routerLinkActive="active">Home</a>
@@ -10,12 +9,11 @@
   <div class="user-section">
     <span class="username">Welcome RD</span>
 
-    <!-- Cart Button -->
     <button class="cart-btn" #cartBtn (click)="toggleCart()" [class.bump]="bumping">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="9" cy="21" r="1"/>
-        <circle cx="20" cy="21" r="1"/>
-        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        <circle cx="9" cy="21" r="1" />
+        <circle cx="20" cy="21" r="1" />
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
       </svg>
 
       <span class="cart-count" *ngIf="cartService.totalCount > 0" [class.pop]="bumping">
@@ -24,14 +22,9 @@
     </button>
   </div>
 </header>
-
 <img #flyImage class="fly-image" [src]="flyingSrc" />
+<app-cart-drawer [cartOpen]="cartOpen" (closeDrawer)="cartOpen = false"></app-cart-drawer>
 
-
-<app-cart-drawer 
-  [cartOpen]="cartOpen"
-  (closeDrawer)="cartOpen = false">
-</app-cart-drawer>
 <!-- Cart drawer component -->
 <!-- <app-cart-drawer [cartOpen]="cartOpen"></app-cart-drawer> -->
 <!--  -->
@@ -145,4 +138,3 @@
       <div class="item-qty">× {{ item.quantity }}</div>
     </div>
   </div> -->
-

@@ -31,7 +31,6 @@ export class ProductDetail implements AfterViewInit {
   ) { }
 
   ngOnInit() {
-
     this.route.paramMap.subscribe(params => {
       const id = params.get('id')!;
       this.product = this.productService.getProductById(id);
@@ -230,14 +229,11 @@ export class ProductDetail implements AfterViewInit {
     return `stock-${this.stockStatus}`;
   }
 
-  // Quantity
   incQty() { this.quantity++; }
   decQty() { if (this.quantity > 1) this.quantity--; }
 
-  // Wishlist
   toggleWishlist() { this.wishlisted = !this.wishlisted; }
 
-  // Toast
   private toastTimer: any;
   showToast() {
     this.toastVisible = true;

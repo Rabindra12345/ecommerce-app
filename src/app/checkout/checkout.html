@@ -1,0 +1,14 @@
+<div class="checkout-page">
+    <h2>Checkout</h2>
+    <div class="items">
+        <div *ngFor="let item of cartService.items()">
+            <p>{{ item.title }} </p>
+        </div>
+    </div>
+    <div class="summary">
+        <h3>Total: ${{ cartService.totalPrice }}</h3>
+    </div>
+    <button class="place-order-btn" (click)="placeOrder()">
+        Place Order
+    </button>
+</div>

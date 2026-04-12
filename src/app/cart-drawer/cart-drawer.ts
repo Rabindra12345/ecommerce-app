@@ -1,6 +1,7 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Cart as CartService } from '../cart/cart';
 import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -11,13 +12,13 @@ import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectorRef } fro
 })
 export class CartDrawer {
 
- 
+
   @Input() cartOpen = false;
   @Output() closeDrawer = new EventEmitter<void>();
 
   connectedDropLists: string[] = [];
 
-  constructor(public cartService: CartService, private cdr: ChangeDetectorRef) {}
+  constructor(public cartService: CartService, private cdr: ChangeDetectorRef, private router: Router) { }
 
   ngOnInit() {
     this.rebuildConnectedLists();
@@ -73,6 +74,11 @@ export class CartDrawer {
 
   onDragEnd() {
     document.body.classList.remove('dragging');
+  }
+
+  goToCheckout() {
+    console.log("CLICKED ON CHECKOUT ...HOLY SHIT.");
+    this.router.navigate(['/checkout']);
   }
 
 }

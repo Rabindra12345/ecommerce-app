@@ -184,10 +184,19 @@
   &:hover { color: #e24b4a; background: #fff0f0; }
 }
 
+// .drawer-footer {
+//   border-top: 1px solid #f0f0f0;
+//   padding: 14px 16px;
+//   flex-shrink: 0;
+// }
+
 .drawer-footer {
   border-top: 1px solid #f0f0f0;
   padding: 14px 16px;
   flex-shrink: 0;
+
+  position: relative;   
+  z-index: 10;          // ensuring it is above body content
 }
 
 .subtotal-row {
@@ -209,5 +218,11 @@
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  &:hover { background: #155db8; }
+  position: relative;   
+  z-index: 20;
+  pointer-events: auto; // ensuring click works
+}
+
+.checkout-btn:hover {
+  background: #155db8;
 }

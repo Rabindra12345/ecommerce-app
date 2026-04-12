@@ -10,6 +10,7 @@ import { ProductDetail } from './product-detail/product-detail';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CartDrawer } from './cart-drawer/cart-drawer';
 import { FormsModule } from '@angular/forms';
+import { Checkout } from './checkout/checkout';
 
 
 
@@ -20,7 +21,8 @@ import { FormsModule } from '@angular/forms';
     Footer,
     ProductLayout,
     ProductDetail,
-    CartDrawer
+    CartDrawer,
+    Checkout
     ],
   imports: [
     BrowserModule,

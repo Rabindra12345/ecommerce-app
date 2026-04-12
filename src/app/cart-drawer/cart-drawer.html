@@ -2,7 +2,6 @@
 
 <div class="cart-drawer" [class.open]="cartOpen">
 
-  <!-- Header -->
   <div class="drawer-header">
     <div>
       <div class="drawer-title">Cart</div>
@@ -11,69 +10,47 @@
     <button class="close-btn" (click)="close()">✕</button>
   </div>
 
-  <!-- Empty state -->
   <div class="drawer-empty" *ngIf="cartService.items().length === 0">
     <div class="empty-icon">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+        stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="21" r="1" />
+        <circle cx="20" cy="21" r="1" />
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
       </svg>
     </div>
     <div class="empty-title">Your cart is empty</div>
     <div class="empty-sub">Add products from the list to get started</div>
   </div>
 
-  <!-- Item sections (CDK drag retained) -->
   <div class="drawer-body" *ngIf="cartService.items().length > 0" cdkDropListGroup>
-    <div class="cart-section"
-      *ngFor="let section of cartService.getSections(); let i = index">
+    <div class="cart-section" *ngFor="let section of cartService.getSections(); let i = index">
 
       <div class="section-label">{{ section.label }}</div>
 
-      <div
-        class="item-list"
-        cdkDropList
-        [id]="'drop-list-' + i"
-        [cdkDropListData]="section.items"
-        [cdkDropListConnectedTo]="connectedDropLists"
-        (cdkDropListDropped)="dropItem($event)"
-      >
-        <div
-          class="cart-item"
-          *ngFor="let item of section.items; trackBy: trackById"
-          cdkDrag
-          (cdkDragStarted)="onDragStart()"
-          (cdkDragEnded)="onDragEnd()"
-        >
+      <div class="item-list" cdkDropList [id]="'drop-list-' + i" [cdkDropListData]="section.items"
+        [cdkDropListConnectedTo]="connectedDropLists" (cdkDropListDropped)="dropItem($event)">
+        <div class="cart-item" *ngFor="let item of section.items; trackBy: trackById" cdkDrag
+          (cdkDragStarted)="onDragStart()" (cdkDragEnded)="onDragEnd()">
           <div class="item-card" cdkDragHandle>
 
-            <!-- Drag handle dots -->
             <div class="drag-handle">
               <span></span><span></span>
               <span></span><span></span>
               <span></span><span></span>
             </div>
 
-            <!-- Thumbnail -->
             <img class="item-thumb" [src]="item.image" [alt]="item.title" />
 
-            <!-- Name + line price -->
             <div class="item-info">
               <div class="item-name">{{ item.title }}</div>
               <div class="item-price">${{ (item.price * item.quantity).toFixed(2) }}</div>
             </div>
-
-            <!-- Quantity controls -->
             <div class="item-actions" (click)="$event.stopPropagation()">
-              <button class="qty-btn"
-                (click)="cartService.updateQuantity(item.id, -1)">−</button>
+              <button class="qty-btn" (click)="cartService.updateQuantity(item.id, -1)">−</button>
               <span class="qty-val">{{ item.quantity }}</span>
-              <button class="qty-btn"
-                (click)="cartService.updateQuantity(item.id, 1)">+</button>
-              <button class="rm-btn"
-                (click)="cartService.removeItem(item.id)"
-                title="Remove item">✕</button>
+              <button class="qty-btn" (click)="cartService.updateQuantity(item.id, 1)">+</button>
+              <button class="rm-btn" (click)="cartService.removeItem(item.id)" title="Remove item">✕</button>
             </div>
 
           </div>
@@ -82,18 +59,23 @@
     </div>
   </div>
 
-  <!-- Sticky footer -->
   <div class="drawer-footer" *ngIf="cartService.items().length > 0">
     <div class="subtotal-row">
       <span class="subtotal-label">Subtotal</span>
       <span class="subtotal-value">${{ cartService.totalPrice }}</span>
     </div>
-    <button class="checkout-btn">Proceed to checkout</button>
+    <button class="checkout-btn" (click)="goToCheckout()">
+      Proceed to checkout
+    </button>
+    <!-- <button (click)="goToCheckout()" style="background:red; z-index:9999">
+      Test Checkout
+    </button> -->
+    <!-- <button class="checkout-btn">Proceed to checkout</button> -->
   </div>
 
 </div>
 
-    <!-- <div class="cart-section" *ngFor="let section of cartService.getSections(); let i = index">
+<!-- <div class="cart-section" *ngFor="let section of cartService.getSections(); let i = index">
       <div class="item-list" cdkDropList [id]="'drop-list-' + i" [cdkDropListData]="section.items"
         [cdkDropListConnectedTo]="connectedDropLists" (cdkDropListDropped)="dropItem($event)">
         <div class="cart-item" *ngFor="let item of section.items; trackBy: trackById" cdkDrag
@@ -107,5 +89,5 @@
         </div>
       </div>
     </div> -->
-  <!-- </div>
+<!-- </div>
 </div> -->
