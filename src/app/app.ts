@@ -7,5 +7,7 @@ import { Component, signal } from '@angular/core';
   styleUrl: './app.scss'
 })
 export class App {
+  cartOpen = false;
+
   protected readonly title = signal('fixed-nav-footer');
 }

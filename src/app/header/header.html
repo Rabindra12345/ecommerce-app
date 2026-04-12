@@ -1,0 +1,148 @@
+<!-- header.component.html -->
+<header class="navbar">
+  <div class="logo">MeroJhola</div>
+
+  <nav class="nav-links">
+    <a routerLink="/" routerLinkActive="active">Home</a>
+    <a routerLink="/tasks" routerLinkActive="active">Tasks</a>
+  </nav>
+
+  <div class="user-section">
+    <span class="username">Welcome RD</span>
+
+    <!-- Cart Button -->
+    <button class="cart-btn" #cartBtn (click)="toggleCart()" [class.bump]="bumping">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="9" cy="21" r="1"/>
+        <circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+      </svg>
+
+      <span class="cart-count" *ngIf="cartService.totalCount > 0" [class.pop]="bumping">
+        {{ cartService.totalCount }}
+      </span>
+    </button>
+  </div>
+</header>
+
+<img #flyImage class="fly-image" [src]="flyingSrc" />
+
+
+<app-cart-drawer 
+  [cartOpen]="cartOpen"
+  (closeDrawer)="cartOpen = false">
+</app-cart-drawer>
+<!-- Cart drawer component -->
+<!-- <app-cart-drawer [cartOpen]="cartOpen"></app-cart-drawer> -->
+<!--  -->
+
+<!-- 
+ <header class="navbar">
+  <div class="logo">TaskManager</div>
+
+  <nav class="nav-links">
+    <a routerLink="/" routerLinkActive="active">Home</a>
+    <a routerLink="/tasks" routerLinkActive="active">Tasks</a>
+  </nav>
+
+  <div class="user-section">
+    <span class="username">Welcome RD</span>
+
+    <button class="cart-btn" #cartBtn (click)="toggleCart()" [class.bump]="bumping">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="9" cy="21" r="1"/>
+        <circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+      </svg>
+
+      <span class="cart-count" *ngIf="cartService.totalCount > 0" [class.pop]="bumping">
+        {{ cartService.totalCount }}
+      </span>
+    </button>
+  </div>
+</header>
+
+
+<img #flyImage class="fly-image" [src]="flyingSrc" />
+
+<div class="cart-overlay" [class.open]="cartOpen" (click)="closeCart()"></div>
+
+<div class="cart-drawer" [class.open]="cartOpen">
+  <div class="cart-header">
+    <h2>🛒 Your Cart</h2>
+    <button class="close-btn" (click)="closeCart()">✕</button>
+  </div>
+
+  <div *ngFor="let section of getCartSections()">
+    <h4>{{ section.label }}</h4>
+  
+    <div class="cart-body" cdkDropList [cdkDropListData]="section.items" (cdkDropListDropped)="dropItem($event)">
+      <div *ngFor="let item of section.items; trackBy: trackById" class="cart-item" cdkDrag>
+        <img [src]="item.image" class="item-img"/>
+        <div class="item-info">
+          <span class="item-title">{{ item.title }}</span>
+          <span class="item-price">${{ item.price }}</span>
+          <span class="item-time">{{ formatTime(item.addedAt) }}</span>
+        </div>
+        <div class="item-qty">× {{ item.quantity }}</div>
+      </div>
+    </div>
+
+  <div *ngIf="cartService.items().length > 0">
+    <div *ngFor="let section of getCartSections()">
+      <h4>{{ section.label }}</h4>
+      <div class="cart-body">
+        <div *ngFor="let item of section.items; trackBy: trackById" class="cart-item" cdkDrag>
+          <img [src]="item.image" class="item-img"/>
+          <div class="item-info">
+            <span class="item-title">{{ item.title }}</span>
+            <span class="item-price">${{ item.price }}</span>
+          </div>
+          <div class="item-qty">× {{ item.quantity }}</div>
+        </div>
+      </div>
+    </div>
+  </div> 
+
+  <div class="cart-body" cdkDropList (cdkDropListDropped)="dropItem($event)">
+    <div *ngFor="let item of cartService.items(); let i = index; trackBy: trackById"
+         class="cart-item" cdkDrag>
+      
+      <img [src]="item.image" class="item-img"/>
+  
+      <div class="item-info">
+        <span class="item-title">{{ item.title }}</span>
+        <span class="item-price">${{ item.price }}</span>
+        <span class="item-time">{{ formatTime(item.addedAt) }}</span>
+      </div>
+  
+      <div class="item-qty">× {{ item.quantity }}</div>
+    </div> 
+
+  <div class="cart-footer" *ngIf="cartService.items().length > 0">
+    <div class="total">Total: <strong>${{ cartService.totalPrice }}</strong></div>
+    <button class="checkout-btn">Checkout →</button>
+  </div>
+</div>
+  
+
+  <div class="cart-body">
+    <div *ngIf="cartService.items().length === 0" class="empty-cart">
+      <div class="empty-icon">🛍️</div>
+      <p>Your cart is empty</p>
+    </div>
+
+    <div class="cart-item"
+         *ngFor="let item of cartService.items(); trackBy: trackById">
+      
+      <img [src]="item.image" class="item-img"/>
+
+      <div class="item-info">
+        <span class="item-title">{{ item.title }}</span>
+        <span class="item-price">${{ item.price }}</span>
+      </div>
+
+      <div class="item-qty">× {{ item.quantity }}</div>
+    </div>
+  </div> -->
+

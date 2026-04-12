@@ -1,0 +1,118 @@
+<div class="page">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h3>Filters</h3>
+
+    <div class="filter-group">
+      <label>Category</label>
+      <select (change)="onCategoryChange($any($event.target).value)">
+        <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
+      </select>
+    </div>
+
+    <!-- ADD: Price range filter -->
+    <div class="filter-group">
+      <label>Price range</label>
+      <div class="price-range-labels">
+        <span>${{ minPrice }}</span>
+        <span>${{ maxPrice }}</span>
+      </div>
+      <input type="range" [min]="absoluteMin" [max]="absoluteMax" step="10"
+        [(ngModel)]="minPrice" (input)="applyFilters()" class="range-slider" />
+      <input type="range" [min]="absoluteMin" [max]="absoluteMax" step="10"
+        [(ngModel)]="maxPrice" (input)="applyFilters()" class="range-slider" />
+    </div>
+
+    <!-- ADD: Min rating filter -->
+    <div class="filter-group">
+      <label>Min rating</label>
+      <div class="star-filters">
+        <button *ngFor="let s of [1,2,3,4]"
+          class="star-btn" [class.active]="minRating === s"
+          (click)="setMinRating(s)">
+          {{ s }}★ & up
+        </button>
+        <button class="star-btn" [class.active]="minRating === 0"
+          (click)="setMinRating(0)">Any</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="content">
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <input type="text" placeholder="Search products..."
+        (input)="onSearch($any($event.target).value)" />
+
+      <!-- ADD: Top Rated + Newest options -->
+      <select (change)="onSortChange($any($event.target).value)">
+        <option value="">Sort By</option>
+        <option value="priceLow">Price: Low → High</option>
+        <option value="priceHigh">Price: High → Low</option>
+        <option value="topRated">Top Rated</option>
+        <option value="newest">Newest</option>
+      </select>
+    </div>
+
+    <!-- ADD: Results count + pagination info -->
+    <div class="results-bar" *ngIf="filteredProducts.length > 0">
+      Showing {{ pageStart }}–{{ pageEnd }} of {{ totalFiltered }} products
+    </div>
+
+    <!-- ADD: Empty state -->
+    <div class="empty-state" *ngIf="pagedProducts.length === 0">
+      <div class="empty-icon">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
+          stroke="#ccc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          <path d="M8 11h6M11 8v6" stroke="#ccc"/>
+        </svg>
+      </div>
+      <div class="empty-title">No products found</div>
+      <div class="empty-sub">Try adjusting your search or filters</div>
+      <button class="empty-reset" (click)="resetFilters()">Clear all filters</button>
+    </div>
+
+    <!-- Cards -->
+    <div class="grid">
+      <div class="card" *ngFor="let product of pagedProducts">
+
+        <img [src]="product.image" [alt]="product.title" />
+
+        <div class="card-body">
+          <h4>{{ product.title }}</h4>
+          <p>{{ product.description }}</p>
+
+          <div class="meta">
+            <span class="price">${{ product.price }}</span>
+            <span class="rating">⭐ {{ product.rating }}</span>
+          </div>
+
+          <!-- ADD: two buttons side by side -->
+          <div class="card-actions">
+            <button class="btn btn-outline" (click)="viewProduct(product.id)">View</button>
+            <button class="btn btn-primary" (click)="addToCart(product)">Add to cart</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ADD: Pagination -->
+    <div class="pagination" *ngIf="totalPages > 1">
+      <button class="page-btn" [disabled]="currentPage === 1"
+        (click)="goToPage(currentPage - 1)">‹</button>
+
+      <button class="page-btn" *ngFor="let p of pageNumbers"
+        [class.active]="p === currentPage"
+        (click)="goToPage(p)">{{ p }}</button>
+
+      <button class="page-btn" [disabled]="currentPage === totalPages"
+        (click)="goToPage(currentPage + 1)">›</button>
+    </div>
+
+  </div>
+</div>

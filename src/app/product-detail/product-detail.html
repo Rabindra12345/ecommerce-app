@@ -1,0 +1,90 @@
+<audio #bgMusic loop preload="auto">
+  <source src="assets/millionaire.mp3" type="audio/mpeg" />
+</audio>
+
+<div class="detail-page" *ngIf="product">
+  <div class="left zoom-container" (mouseleave)="onMouseLeave()">
+    <img #zoomImg [src]="product.image" alt="{{ product.title }}" (dblclick)="toggleZoom()"
+      (mousedown)="startDrag($event)" (mouseup)="endDrag()" (mousemove)="dragImage($event)" [ngStyle]="{
+        'transform': isZoomed
+          ? 'scale(' + zoomScale + ') translate(' + translateX + 'px,' + translateY + 'px)'
+          : 'scale(1)'
+      }" />
+    <div class="zoom-hint" [class.hidden]="isZoomed">Double-click to zoom</div>
+  </div>
+
+  <div class="right">
+    <nav class="breadcrumb">
+      <a routerLink="/">Home</a>
+      <span class="bc-sep">›</span>
+      <a routerLink="/products">Products</a>
+      <span class="bc-sep">›</span>
+      <span class="bc-current">{{ product.title }}</span>
+    </nav>
+
+    <h1>{{ product.title }}</h1>
+    <p class="desc">
+      {{ product.description }}<br><br>
+      This is extended description showing how large content fits.
+    </p>
+
+    <div class="meta">
+      <span class="price">${{ product.price }}</span>
+      <a class="rating" href="#reviews">
+        ⭐ {{ product.rating }}
+        <span class="review-count">({{ product.reviewCount || 38 }} reviews)</span>
+      </a>
+    </div>
+
+    <div class="stock-badge" [ngClass]="stockClass">{{ stockLabel }}</div>
+
+    <div class="actions-row">
+      <div class="qty-control">
+        <button class="qty-btn" (click)="decQty()" [disabled]="quantity <= 1">−</button>
+        <span class="qty-val">{{ quantity }}</span>
+        <button class="qty-btn" (click)="incQty()" [disabled]="stockStatus === 'out'">+</button>
+      </div>
+
+      <button class="btn" (click)="addToCart()" [disabled]="stockStatus === 'out'">
+        {{ stockStatus === 'out' ? 'Out of Stock' : 'Add to Cart' }}
+      </button>
+
+      <button class="wishlist-btn" (click)="toggleWishlist()" [class.active]="wishlisted">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06
+                   a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78
+                   1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="toast" [class.show]="toastVisible">
+      ✓ Added {{ quantity }} item{{ quantity > 1 ? 's' : '' }} to cart
+    </div>
+  </div>
+
+</div>
+
+<div class="related-section" *ngIf="relatedProducts.length">
+  <h2 class="related-title">You might also like</h2>
+  <div class="related-grid">
+    <div class="related-card" *ngFor="let p of relatedProducts">
+      <img [src]="p.image" [alt]="p.title" (click)="navigateTo(p.id)" />
+      <div class="related-info">
+        <div class="related-name" (click)="navigateTo(p.id)">{{ p.title }}</div>
+        <div class="related-price">${{ p.price }}</div>
+        <div class="related-rating">⭐ {{ p.rating }}</div>
+        <div class="related-actions">
+          <button class="related-btn-outline" (click)="viewProduct(p.id)">View</button>
+          <button class="btn btn-primary" (click)="addRelatedToCart(p)">Add to cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="reviews" class="reviews-stub" *ngIf="product">
+  <h2>Reviews <span class="review-count-title">({{ product.reviewCount || 38 }})</span></h2>
+  <p class="reviews-coming">Review list coming soon.</p>
+</div>
