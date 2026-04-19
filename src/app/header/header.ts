@@ -2,6 +2,8 @@ import { Component, ElementRef, ViewChild, effect, inject } from '@angular/core'
 import { CartItem, Cart as CartService } from '../cart/cart';
 import { Cartuiservice } from '../cart/cartuiservice';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { Router } from '@angular/router';
+import { Authservice } from '../login/authservice';
 
 
 @Component({
@@ -21,7 +23,7 @@ export class Header {
 
   constructor(
     public cartService: CartService,
-    private cartUi: Cartuiservice
+    private cartUi: Cartuiservice, private router: Router, public auth :Authservice
   ) {}
 
   toggleCart() { this.cartOpen = !this.cartOpen; }
@@ -53,11 +55,14 @@ export class Header {
 
     fly.classList.add('fly');
 
-    // Cart bump after flying
     setTimeout(() => {
       this.bumping = true;
       setTimeout(() => this.bumping = false, 400);
     }, 800);
+  }
+
+  goToDashboard() {
+    this.router.navigate(['/dashboard']);
   }
 
   // @ViewChild('flyImage') flyImage!: ElementRef<HTMLImageElement>;

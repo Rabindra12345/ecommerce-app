@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { Cart as CartService} from '../cart/cart';
 import { FormsModule } from '@angular/forms';
+import { Authservice } from '../login/authservice';
 
 
 
@@ -28,7 +29,7 @@ export class ProductLayout implements OnInit {
   constructor(
     private productService: ProductService,
     private router: Router,
-    private cartService: CartService,          
+    private cartService: CartService,    public auth:Authservice      
   ) { }
 
   products: Product[] = Array.from({ length: 20 }, (_, i) => ({
@@ -51,7 +52,6 @@ export class ProductLayout implements OnInit {
     this.productService.setProducts(this.products);
   }
   
-  // ADD these properties
   minPrice = 50;
   maxPrice = 550;
   absoluteMin = 50;
@@ -60,7 +60,6 @@ export class ProductLayout implements OnInit {
   currentPage = 1;
   pageSize = 10;
   
-  // ADD these getters
   get totalFiltered() { return this.filteredProducts.length; }
   get totalPages() { return Math.ceil(this.totalFiltered / this.pageSize); }
   get pageStart() { return (this.currentPage - 1) * this.pageSize + 1; }
@@ -73,7 +72,6 @@ export class ProductLayout implements OnInit {
     );
   }
   
-  // ADD these methods
   setMinRating(val: number) {
     this.minRating = val;
     this.applyFilters();
@@ -85,7 +83,18 @@ export class ProductLayout implements OnInit {
   }
   
  addToCart(product: Product) {
-  this.cartService.addItem({ ...product, id: Number(product.id) });
+  if (!this.auth.isLoggedIn()) {
+    alert('Please login to add items to cart');
+
+    this.router.navigate(['/login']);
+    return;
+  }
+
+  this.cartService.addItem({
+    ...product,
+    id: Number(product.id)
+  });
+  // this.cartService.addItem({ ...product, id: Number(product.id) });
 }
   resetFilters() {
     this.searchText = '';
@@ -97,7 +106,6 @@ export class ProductLayout implements OnInit {
     this.applyFilters();
   }
   
-  // REPLACE applyFilters entirely
   applyFilters() {
     let data = [...this.products];
   
@@ -109,13 +117,9 @@ export class ProductLayout implements OnInit {
     if (this.selectedCategory !== 'All') {
       data = data.filter(p => p.category === this.selectedCategory);
     }
-  
-    // ADD: price range
     data = data.filter(p => p.price >= this.minPrice && p.price <= this.maxPrice);
-  
-    // ADD: min rating
-    if (this.minRating > 0) {
-      data = data.filter(p => p.rating >= this.minRating);
+      if (this.minRating > 0) {
+    data = data.filter(p => p.rating >= this.minRating);
     }
   
     if (this.sortOption === 'priceLow') {
@@ -129,7 +133,7 @@ export class ProductLayout implements OnInit {
     }
   
     this.filteredProducts = data;
-    this.currentPage = 1; // reset to page 1 on any filter change
+    this.currentPage = 1; 
   }
 
   onSortChange(value: string) {

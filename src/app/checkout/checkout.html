@@ -1,14 +1,34 @@
 <div class="checkout-page">
-    <h2>Checkout</h2>
-    <div class="items">
-        <div *ngFor="let item of cartService.items()">
-            <p>{{ item.title }} </p>
+
+    <div class="checkout-container">
+      <h2 class="title">Checkout</h2>
+      <div class="checkout-content">
+          <div class="items">
+          <h3>Order Items</h3>
+  
+          <div class="item" *ngFor="let item of cartService.items()">
+            <div class="item-info">
+              <p class="item-title">{{ item.title }}</p>
+              <p class="item-price">${{ item.price }}</p>
+            </div>
+          </div>
         </div>
+  
+        <div class="summary">
+          <h3>Order Summary</h3>
+  
+          <div class="summary-row">
+            <span>Total</span>
+            <span class="total">${{ cartService.totalPrice }}</span>
+          </div>
+  
+          <button class="place-order-btn" (click)="placeOrder()">
+            Place Order
+          </button>
+        </div>
+  
+      </div>
+  
     </div>
-    <div class="summary">
-        <h3>Total: ${{ cartService.totalPrice }}</h3>
-    </div>
-    <button class="place-order-btn" (click)="placeOrder()">
-        Place Order
-    </button>
-</div>
+  
+  </div>

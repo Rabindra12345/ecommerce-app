@@ -5,6 +5,7 @@ import { Product as ProductService } from '../product/product';
 import { Cartuiservice } from '../cart/cartuiservice'
 import { Cart } from '../cart/cart';
 import { Router } from '@angular/router';
+import { Authservice } from '../login/authservice';
 
 
 @Component({
@@ -27,7 +28,7 @@ export class ProductDetail implements AfterViewInit {
 
   constructor(
     private route: ActivatedRoute,
-    private productService: ProductService, private cartUi: Cartuiservice, private cartService: Cart, private router: Router
+    private productService: ProductService, private cartUi: Cartuiservice, private cartService: Cart, private router: Router, private auth:Authservice
   ) { }
 
   ngOnInit() {
@@ -95,6 +96,11 @@ export class ProductDetail implements AfterViewInit {
   // }
 
   addToCart() {
+    if (!this.auth.isLoggedIn()) {
+      alert('Please login to add items to cart');
+      this.router.navigate(['/login']);
+      return;
+    }
     if (this.stockStatus === 'out') return;
     for (let i = 0; i < this.quantity; i++) {
       this.cartService.addItem(this.product);

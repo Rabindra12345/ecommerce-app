@@ -4,10 +4,28 @@
   <nav class="nav-links">
     <a routerLink="/" routerLinkActive="active">Home</a>
     <a routerLink="/tasks" routerLinkActive="active">Tasks</a>
+    <button (click)="goToDashboard()">Go to Dashboard</button>
   </nav>
 
   <div class="user-section">
-    <span class="username">Welcome RD</span>
+    <ng-container *ngIf="auth.isLoggedIn(); else loginBtn">
+
+      <span class="username">
+        Welcome {{ auth.getUsername() }}
+      </span>
+  
+      <button class="logout-btn" (click)="auth.logout()">
+        Logout
+      </button>
+  
+    </ng-container>
+  
+    <ng-template #loginBtn>
+      <button class="login-btn" routerLink="/login">
+        Login
+      </button>
+    </ng-template>
+    <!-- <span class="username">Welcome RD</span> -->
 
     <button class="cart-btn" #cartBtn (click)="toggleCart()" [class.bump]="bumping">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

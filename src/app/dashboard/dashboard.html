@@ -1,0 +1,84 @@
+<div class="dashboard">
+    <div class="main">
+      <header class="header">
+        <input type="text" placeholder="Search..." />
+        <div class="actions">
+            <button class="btn-primary" routerLink="/dashboard/add-product">
+              + Add Product
+            </button>
+            <div class="user">Admin</div>
+            </div>
+      </header>
+
+      <section class="cards">
+        <div class="card">
+          <h3>Total Sales</h3>
+          <p>$24,500</p>
+        </div>
+        <div class="card">
+          <h3>Orders</h3>
+          <p>1,200</p>
+        </div>
+        <div class="card">
+          <h3>Customers</h3>
+          <p>850</p>
+        </div>
+        <div class="card">
+          <h3>Revenue</h3>
+          <p>$18,000</p>
+        </div>
+      </section>
+
+      <section class="table-section">
+
+        <h2>Recent Orders</h2>
+      
+        <div class="orders">
+      
+          <div class="order-row" *ngFor="let order of orders">
+              <div class="order-main">
+              <div class="order-id">{{ order.id }}</div>
+              <div class="order-customer">{{ order.customer }}</div>
+              <div class="order-items">
+                <span *ngFor="let item of order.items" class="item-pill">
+                  {{ item }}
+                </span>
+              </div>
+            </div>
+            <div class="order-meta">
+              <div class="amount">${{ order.amount }}</div>
+              <div class="status" [ngClass]="order.status">
+                {{ order.status }}
+              </div>
+      
+            </div>
+      
+          </div>
+      
+        </div>
+      
+      </section>
+
+      <!-- <section class="table-section">
+        <h2>Recent Orders</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>Status</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of orders">
+              <td>{{order.id}}</td>
+              <td>{{order.customer}}</td>
+              <td [ngClass]="order.status">{{order.status}}</td>
+              <td>{{order.amount}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </section> -->
+    </div>
+  </div>
