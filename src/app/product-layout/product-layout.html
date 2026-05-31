@@ -1,6 +1,5 @@
 <div class="page">
 
-  <!-- Sidebar -->
   <aside class="sidebar">
     <h3>Filters</h3>
 
@@ -11,7 +10,6 @@
       </select>
     </div>
 
-    <!-- ADD: Price range filter -->
     <div class="filter-group">
       <label>Price range</label>
       <div class="price-range-labels">
@@ -24,7 +22,6 @@
         [(ngModel)]="maxPrice" (input)="applyFilters()" class="range-slider" />
     </div>
 
-    <!-- ADD: Min rating filter -->
     <div class="filter-group">
       <label>Min rating</label>
       <div class="star-filters">
@@ -39,15 +36,12 @@
     </div>
   </aside>
 
-  <!-- Main Content -->
   <div class="content">
 
-    <!-- Top Bar -->
     <div class="top-bar">
       <input type="text" placeholder="Search products..."
         (input)="onSearch($any($event.target).value)" />
 
-      <!-- ADD: Top Rated + Newest options -->
       <select (change)="onSortChange($any($event.target).value)">
         <option value="">Sort By</option>
         <option value="priceLow">Price: Low → High</option>
@@ -57,12 +51,10 @@
       </select>
     </div>
 
-    <!-- ADD: Results count + pagination info -->
     <div class="results-bar" *ngIf="filteredProducts.length > 0">
       Showing {{ pageStart }}–{{ pageEnd }} of {{ totalFiltered }} products
     </div>
 
-    <!-- ADD: Empty state -->
     <div class="empty-state" *ngIf="pagedProducts.length === 0">
       <div class="empty-icon">
         <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
@@ -76,22 +68,16 @@
       <button class="empty-reset" (click)="resetFilters()">Clear all filters</button>
     </div>
 
-    <!-- Cards -->
     <div class="grid">
       <div class="card" *ngFor="let product of pagedProducts">
-
         <img [src]="product.image" [alt]="product.title" />
-
         <div class="card-body">
           <h4>{{ product.title }}</h4>
           <p>{{ product.description }}</p>
-
           <div class="meta">
             <span class="price">${{ product.price }}</span>
             <span class="rating">⭐ {{ product.rating }}</span>
           </div>
-
-          <!-- ADD: two buttons side by side -->
           <div class="card-actions">
             <button class="btn btn-outline" (click)="viewProduct(product.id)">View</button>
             <button class="btn btn-primary" (click)="addToCart(product)">Add to cart</button>
@@ -100,8 +86,6 @@
 
       </div>
     </div>
-
-    <!-- ADD: Pagination -->
     <div class="pagination" *ngIf="totalPages > 1">
       <button class="page-btn" [disabled]="currentPage === 1"
         (click)="goToPage(currentPage - 1)">‹</button>

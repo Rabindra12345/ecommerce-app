@@ -1,5 +1,9 @@
 import { Injectable, signal } from '@angular/core';
 
+import { CartService } from './cartservice';
+
+import { Authservice } from '../login/authservice';
+
 
 export interface CartItem {
   id: number;
@@ -18,13 +22,91 @@ export class Cart {
 
   items = signal<CartItem[]>([]);
 
-  addItem(product: { id: number; title: string; price: number; image: string }) {
+  constructor(private cartService: CartService, private authService: Authservice){
+    this.cartService=cartService;
+    this.authService=authService;
+  }
+
+  addItem1(product: { id: number; title: string; price: number; image: string }) {
     this.items.update(current => {
       const existing = current.find(i => i.id === product.id);
       if (existing) {
         return current.map(i => i.id === product.id ? { ...i, quantity: i.quantity + 1 } : i);
       }
       return [...current, { ...product, quantity: 1, addedAt: Date.now() }];
+    });
+  }
+
+  // addItem(product: { id: number; title: string; price: number; image: string }) {
+  //   const payload = {
+  //     productId: product.id,
+  //     quantity: 1
+  //   };
+  
+  //   this.cartService.addToCart(this.userId, payload).subscribe({
+  //     next: (res) => {
+  //       // backend returns FULL updated cart
+  //       const cart = res.data;
+  
+  //       this.items.set(
+  //         cart.items.map(i => ({
+  //           id: i.productId,
+  //           title: i.productName,
+  //           price: i.price,
+  //           image: product.image, // FE-only (or move image to backend later)
+  //           quantity: i.quantity,
+  //           addedAt: Date.now()
+  //         }))
+  //       );
+  //     },
+  
+  //     error: (err) => {
+  //       console.error('Failed to add item to cart', err);
+  //     }
+  //   });
+  // }
+  addItem(product: { id: number; title: string; price: number; image: string }) {
+    if (!product?.id) {
+      console.log("Invalid product");
+      return;
+    }
+
+    // const userId = Number(localStorage.getItem('userId'));
+    const userId = this.authService.getUsername();
+    console.log("TOKEN ___________________:)"+this.authService.getAccessToken());
+    
+    if (!userId) {
+      console.log("User not logged in");
+      return;
+    }
+    const payload = {
+      productId: String(product.id),
+      price:product.price,
+      title:product.title,
+      quantity: 1
+    };
+    
+  
+    this.cartService.addToCart(userId, payload).subscribe({
+      next: (res) => {
+  
+        const cart = res.data;
+  
+        this.items.set(
+          cart.items.map((i: any) => ({
+            id: i.productId,
+            title: i.productName,
+            price: i.price,
+            image: product.image,
+            quantity: i.quantity,
+            addedAt: Date.now()
+          }))
+        );
+      },
+  
+      error: (err) => {
+        console.error('Failed to add item to cart', err);
+      }
     });
   }
 

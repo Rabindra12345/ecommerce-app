@@ -1,26 +1,38 @@
 <div class="login-page">
 
-    <div class="login-card">
+  <div class="login-card">
 
-      <h2>Login</h2>
-      <p class="sub">Welcome back 👋</p>
-
-      <input type="text" placeholder="Username"
-        [(ngModel)]="username" />
-
-      <input type="password" placeholder="Password"
-        [(ngModel)]="password" />
-
-      <button (click)="login()">Login</button>
-
-      <p class="error" *ngIf="error">
-        Invalid credentials
-      </p>
-
-      <p class="hint">
-        Try: admin / 1234
-      </p>
-
+    <div class="header">
+      <h2>Welcome back</h2>
+      <p class="sub">Please sign in to your account</p>
     </div>
 
+    <form (ngSubmit)="login($event)" class="form">
+    <!-- <form (ngSubmit)="login()" #loginForm="ngForm" class="form"> -->
+
+      <input type="text"
+        name="username"
+        placeholder="Username"
+        [(ngModel)]="username" />
+
+      <input type="password"
+        name="password"
+        placeholder="Password"
+        [(ngModel)]="password" />
+
+      <button type="submit">Sign in</button>
+      <!-- <button (click)="login()">TEST LOGIN</button> -->
+
+    </form>
+
+    <p class="error" *ngIf="error">
+      Invalid credentials
+    </p>
+
+    <p class="hint">
+      Demo: Admin admin ? 
+    </p>
+
   </div>
+
+</div>

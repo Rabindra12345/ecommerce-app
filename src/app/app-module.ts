@@ -14,9 +14,18 @@ import { Checkout } from './checkout/checkout';
 import { Dashboard } from './dashboard/dashboard';
 import { AddProduct } from './dashboard/add-product/add-product';
 import { Login } from './login/login';
+import {
+  HTTP_INTERCEPTORS,
+  HttpClientModule
+} from '@angular/common/http';
+import { AuthInterceptor } from './interceptor/authinterceptor.js';
 
-
-
+import {
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest
+} from '@angular/common/http';
 @NgModule({
   declarations: [
     App,
@@ -34,11 +43,17 @@ import { Login } from './login/login';
     BrowserModule,
     AppRoutingModule,
     DragDropModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideClientHydration(withEventReplay()),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [App]
 })

@@ -1,17 +1,27 @@
 /* Layout */
 .page {
-    display: flex;
-    gap: 20px;
+
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  flex-wrap: wrap;
+
+    // display: flex;
+    // gap: 20px;
+    // width: 100%;
   }
   
   /* Sidebar */
   .sidebar {
-    width: 260px;
-    background: #f8fafc;
-    padding: 20px;
-    border-radius: 10px;
-    height: fit-content;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    flex: 0 1 260px;   /* can shrink */
+    max-width: 260px;
+    width: 100%;
+    // width: 260px;
+    // background: #f8fafc;
+    // padding: 20px;
+    // border-radius: 10px;
+    // height: fit-content;
+    // box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   }
   
   .filter-group {
@@ -51,7 +61,8 @@
   /* Grid */
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    // grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
     gap: 20px;
   }
   
@@ -303,3 +314,14 @@
   .review-count-title { font-size: 14px; font-weight: 400; color: #888; }
 }
 .reviews-coming { font-size: 13px; color: #aaa; }
+
+@media (max-width: 768px) {
+  .sidebar {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  .content {
+    flex: 1 1 100%;
+  }
+}
